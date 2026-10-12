@@ -6,67 +6,102 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Risky Studio Pro</title>
 <style>
-:root{--bg:#101115;--panel:#191a20;--panel2:#22242c;--line:#343641;--orange:#ff7a18;--text:#f4f4f5;--muted:#9b9da8}
+:root{
+  --bg:#101115;--panel:#191a20;--panel2:#22242b;
+  --line:#353741;--orange:#ff7a18;--text:#f4f4f5;--muted:#a4a6b0;
+}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font:14px Arial,sans-serif}
-button,input,select{font:inherit}
-button{background:#292b34;color:white;border:1px solid #41434e;border-radius:7px;padding:9px 12px;cursor:pointer}
+button,input,select,textarea{font:inherit}
+button{
+  background:#292b34;color:white;border:1px solid #41434e;
+  border-radius:7px;padding:9px 12px;cursor:pointer
+}
 button:hover{border-color:var(--orange)}
-button.primary{background:var(--orange);color:#151515;border-color:var(--orange);font-weight:bold}
-button:disabled{opacity:.4;cursor:not-allowed}
-header{height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:#17181d;border-bottom:1px solid var(--line);gap:10px}
-.logo{font-size:19px;font-weight:900}.logo span{color:var(--orange)}
-.actions{display:flex;gap:7px;flex-wrap:wrap}
-main{display:grid;grid-template-columns:235px minmax(260px,1fr) 260px;min-height:420px;height:52vh;border-bottom:1px solid var(--line)}
-.panel{background:var(--panel);padding:12px;overflow:auto;min-width:0}
-.panel h3{margin:3px 0 13px;font-size:14px}
-.left{border-right:1px solid var(--line)}.right{border-left:1px solid var(--line)}
-.workspace{padding:12px;display:flex;flex-direction:column;min-width:0;gap:10px}
-.previewTop{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
-.canvasWrap{flex:1;min-height:180px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#09090c;border:1px solid #30313a;border-radius:8px}
-canvas{display:block;max-width:100%;max-height:100%;object-fit:contain;background:#000}
-.controls{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
-.muted{color:var(--muted);font-size:12px}
+button.primary{background:var(--orange);color:#171717;border-color:var(--orange);font-weight:bold}
+button:disabled{opacity:.45}
+input,select,textarea{
+  width:100%;min-width:0;background:#101116;color:white;
+  border:1px solid #3a3c47;border-radius:6px;padding:9px
+}
+input[type=color]{height:38px;padding:3px}
+input[type=file]{font-size:12px}
+header{
+  min-height:60px;padding:10px 16px;background:#17181d;
+  border-bottom:1px solid var(--line);display:flex;
+  justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap
+}
+.logo{font-size:19px;font-weight:900;white-space:nowrap}
+.logo span{color:var(--orange)}
+.actions,.controls{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+main{
+  display:grid;grid-template-columns:230px minmax(0,1fr) 255px;
+  align-items:stretch;min-width:0
+}
+.panel{background:var(--panel);padding:13px;min-width:0;overflow-x:hidden}
+.left{border-right:1px solid var(--line)}
+.right{border-left:1px solid var(--line)}
+.panel h3{font-size:14px;margin:3px 0 14px}
+.workspace{padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.previewTop{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.canvasWrap{
+  min-height:230px;max-height:480px;width:100%;flex:1;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;background:#09090c;border:1px solid #30313a;border-radius:8px;padding:8px
+}
+#canvas{
+  display:block;max-width:100%;max-height:100%;
+  width:auto;height:auto;object-fit:contain;background:#000;touch-action:none
+}
+.muted{color:var(--muted);font-size:12px;line-height:1.5}
 .field{display:flex;flex-direction:column;gap:5px;margin-bottom:11px;min-width:0}
-.field label{color:#c5c6ce;font-size:12px}
-.field input,.field select{width:100%;background:#101116;border:1px solid #3a3c47;color:white;border-radius:6px;padding:9px;min-width:0}
-.field input[type=checkbox]{width:auto}
+.field label{color:#c7c8d0;font-size:12px}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
 hr{border:0;border-top:1px solid var(--line);margin:14px 0}
-#library{display:flex;flex-direction:column;gap:6px}
-.asset{display:flex;align-items:center;gap:7px;background:#22242b;padding:8px;border-radius:6px;min-width:0}
-.asset .name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px}
-.asset button{padding:6px 8px}
-.timeline{background:#15161b;padding:12px;overflow:hidden}
-.timelineHead{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:12px}
-.timelineHead h3{margin:0}
-.rulerScroll{overflow-x:auto;overflow-y:hidden;border:1px solid var(--line);border-radius:6px}
-.ruler{position:relative;height:28px;background:#202129;min-width:100%;border-bottom:1px solid var(--line)}
-.tick{position:absolute;top:0;height:100%;border-left:1px solid #4a4c57;padding:6px 4px;color:#bbb;font-size:10px;white-space:nowrap}
-.trackScroll{overflow:auto;max-height:300px;border:1px solid var(--line);border-top:0}
-.track{display:flex;min-width:100%;height:57px;border-bottom:1px solid var(--line);position:relative;background:#191a20}
-.trackLabel{width:112px;min-width:112px;padding:9px 8px;background:#22232b;border-right:1px solid var(--line);font-size:11px;color:#ddd;position:sticky;left:0;z-index:4}
-.lane{position:relative;flex:1;min-width:0;height:100%;background-image:linear-gradient(to right,#2d2f38 1px,transparent 1px);background-size:80px 100%}
-.clip{position:absolute;top:7px;height:42px;border:1px solid #ff9a50;background:#713c1d;border-radius:5px;overflow:hidden;display:flex;align-items:center;cursor:pointer;min-width:12px;color:white}
-.clip.selected{outline:2px solid #fff;outline-offset:-2px}
-.clip.overlay{background:#39416e;border-color:#7f94ff}
-.clip .clipName{font-size:11px;padding:5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;pointer-events:none}
-.clip .edge{width:5px;height:100%;cursor:ew-resize;background:#ffffff18;flex-shrink:0}
+#library{display:flex;flex-direction:column;gap:7px}
+.asset{display:flex;align-items:center;gap:6px;background:var(--panel2);padding:7px;border-radius:6px;min-width:0}
+.asset .name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px}
+.asset button{padding:6px 9px}
+.empty{color:var(--muted);font-size:12px;padding:8px 0;line-height:1.5}
+.timeline{padding:13px;background:#15161b;border-top:1px solid var(--line);min-width:0;overflow:hidden}
+.timelineHead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.timelineHead h3{font-size:14px;margin:0}
+.rulerScroll{overflow-x:auto;overflow-y:hidden;border:1px solid var(--line);border-radius:6px 6px 0 0}
+.ruler{position:relative;height:30px;background:#202129;border-bottom:1px solid var(--line)}
+.tick{position:absolute;top:0;height:100%;border-left:1px solid #494b56;padding:7px 4px;color:#c5c6ce;font-size:10px;white-space:nowrap}
+.trackScroll{overflow:auto;max-height:290px;border:1px solid var(--line);border-top:0}
+.track{display:flex;height:62px;border-bottom:1px solid var(--line);position:relative;background:#191a20}
+.trackLabel{
+  width:110px;min-width:110px;padding:10px 8px;background:#22232b;
+  border-right:1px solid var(--line);font-size:11px;color:#ddd;
+  position:sticky;left:0;z-index:4
+}
+.lane{position:relative;height:100%;flex-shrink:0;background-image:linear-gradient(to right,#30323c 1px,transparent 1px)}
+.clip{
+  position:absolute;top:8px;height:44px;border:1px solid #ff9a50;
+  background:#713c1d;border-radius:5px;display:flex;align-items:center;
+  overflow:hidden;cursor:pointer;color:white;min-width:12px;touch-action:pan-y
+}
+.clip.overlay{background:#39416e;border-color:#8296ff}
+.clip.selected{outline:2px solid white;outline-offset:-2px}
+.clipName{font-size:11px;padding:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;pointer-events:none}
+.edge{width:6px;height:100%;flex-shrink:0;background:#ffffff20;cursor:ew-resize}
 .playhead{position:absolute;top:0;bottom:0;width:2px;background:#ff493f;z-index:3;pointer-events:none}
 .playhead:before{content:"";position:absolute;top:0;left:-4px;border-left:5px solid transparent;border-right:5px solid transparent;border-top:7px solid #ff493f}
 .timelineFoot{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;padding-top:10px}
-.empty{color:var(--muted);font-size:12px;padding:8px 0}
-@media(max-width:850px){
- main{grid-template-columns:1fr;height:auto}
- .left,.right{border:0;border-bottom:1px solid var(--line)}
- .workspace{height:390px}
- .trackLabel{width:88px;min-width:88px}
- header{height:auto;min-height:58px;padding:10px;flex-wrap:wrap}
+#status{min-height:18px}
+@media(max-width:900px){
+  main{grid-template-columns:minmax(0,1fr)}
+  .left,.right{border:0;border-bottom:1px solid var(--line)}
+  .workspace{min-height:390px}
+  .canvasWrap{min-height:220px}
+  .trackLabel{width:90px;min-width:90px}
+  header{align-items:flex-start}
 }
 </style>
 </head>
 <body>
+
 <header>
   <div class="logo">RISKY <span>STUDIO</span> PRO</div>
   <div class="actions">
@@ -80,12 +115,14 @@ hr{border:0;border-top:1px solid var(--line);margin:14px 0}
 <main>
   <aside class="panel left">
     <h3>Medienbibliothek</h3>
+
     <div class="field">
       <label>Videos und Bilder importieren</label>
       <input id="mediaFiles" type="file" accept="video/*,image/*" multiple>
     </div>
+
     <div class="field">
-      <label>Auflösung</label>
+      <label>Projektauflösung</label>
       <select id="resolution">
         <option value="1920x1080">Full HD · 1920 × 1080</option>
         <option value="1280x720">HD · 1280 × 720</option>
@@ -94,407 +131,1012 @@ hr{border:0;border-top:1px solid var(--line);margin:14px 0}
         <option value="custom">Eigene Auflösung</option>
       </select>
     </div>
+
     <div class="two" id="customResolution" hidden>
-      <div class="field"><label>Breite (px)</label><input id="projectW" type="number" min="16" max="3840" value="1920"></div>
-      <div class="field"><label>Höhe (px)</label><input id="projectH" type="number" min="16" max="3840" value="1080"></div>
+      <div class="field">
+        <label>Breite (px)</label>
+        <input id="projectW" type="number" min="16" max="3840" value="1920">
+      </div>
+      <div class="field">
+        <label>Höhe (px)</label>
+        <input id="projectH" type="number" min="16" max="3840" value="1080">
+      </div>
     </div>
+
+    <hr>
+    <h3>Elemente hinzufügen</h3>
+
     <div class="field">
-      <label>Text hinzufügen</label>
-      <input id="newText" placeholder="Dein Text">
+      <label>Text</label>
+      <textarea id="newText" rows="3" placeholder="Dein Text ..."></textarea>
       <button onclick="addText()">＋ Text zur Timeline</button>
     </div>
+
     <div class="field">
-      <label>Emoji hinzufügen</label>
+      <label>Emoji</label>
       <div class="two">
-        <input id="newEmoji" value="🔥" maxlength="8">
+        <input id="newEmoji" value="🔥">
         <button onclick="addEmoji()">＋ Emoji</button>
       </div>
     </div>
+
     <hr>
-    <h3>Importierte Medien</h3>
-    <div id="library"><div class="empty">Importiere Videos oder Bilder.</div></div>
-    <p class="muted">Wähle „Zur Timeline“, um einen Clip ans Ende zu setzen.</p>
+    <h3>Medien</h3>
+    <div id="library"><div class="empty">Importiere zuerst Videos oder Bilder.</div></div>
+    <p class="muted">Mit ＋ fügst du ein Medium ans Ende der Timeline ein.</p>
   </aside>
 
   <section class="workspace">
     <div class="previewTop">
-      <strong>Vorschau</strong>
+      <strong>Videovorschau</strong>
       <span class="muted" id="previewInfo">1920 × 1080</span>
     </div>
-    <div class="canvasWrap"><canvas id="canvas" width="1920" height="1080"></canvas></div>
+
+    <div class="canvasWrap" id="canvasWrap">
+      <canvas id="canvas" width="1920" height="1080"></canvas>
+    </div>
+
     <div class="controls">
       <button onclick="goStart()">⏮</button>
       <button class="primary" id="playBtn" onclick="togglePlay()">▶ Abspielen</button>
       <button onclick="stopPlay()">■ Stop</button>
-      <span id="timeDisplay" class="muted">00:00.00 / 00:00.00</span>
+      <span class="muted" id="timeDisplay">00:00.00 / 00:00.00</span>
     </div>
+
     <div class="controls">
-      <button onclick="addText()">＋ Text</button>
-      <button onclick="addEmoji()">＋ Emoji</button>
       <button onclick="deleteSelected()">Löschen</button>
-      <button onclick="moveSelected(-1)">← Nach links</button>
-      <button onclick="moveSelected(1)">Nach rechts →</button>
+      <button onclick="moveSelected(-1)">← Reihenfolge</button>
+      <button onclick="moveSelected(1)">Reihenfolge →</button>
     </div>
-    <p class="muted">Tipp: Wähle einen Clip oder ein Objekt in der Timeline. Objekte kannst du auch direkt in der Vorschau verschieben.</p>
+
+    <p class="muted">
+      Wähle ein Objekt aus der Timeline. Text und Bilder lassen sich in der Vorschau
+      verschieben. Größe, Position und Drehung kannst du rechts exakt einstellen.
+    </p>
     <div id="status" class="muted">Bereit.</div>
   </section>
 
   <aside class="panel right">
     <h3>Eigenschaften</h3>
-    <div id="noSelection" class="empty">Wähle ein Element in der Timeline.</div>
+    <div id="noSelection" class="empty">Wähle einen Clip in der Timeline aus.</div>
+
     <div id="properties" hidden>
-      <div class="field"><label>Name</label><input id="pName"></div>
-      <div class="two">
-        <div class="field"><label>X-Position (px)</label><input id="pX" type="number" step="1"></div>
-        <div class="field"><label>Y-Position (px)</label><input id="pY" type="number" step="1"></div>
+      <div class="field">
+        <label>Name</label>
+        <input id="pName">
       </div>
+
       <div class="two">
-        <div class="field"><label>Breite (px)</label><input id="pW" type="number" min="1" step="1"></div>
-        <div class="field"><label>Höhe (px)</label><input id="pH" type="number" min="1" step="1"></div>
+        <div class="field">
+          <label>X-Position (px)</label>
+          <input id="pX" type="number" step="1">
+        </div>
+        <div class="field">
+          <label>Y-Position (px)</label>
+          <input id="pY" type="number" step="1">
+        </div>
       </div>
-      <div class="field"><label>Drehung (Grad)</label><input id="pRot" type="number" step="1" min="-3600" max="3600"></div>
-      <div class="field"><label>Deckkraft (%)</label><input id="pOpacity" type="number" min="0" max="100" step="1"></div>
-      <div class="field" id="textField"><label>Text oder Emoji</label><input id="pText"></div>
-      <div class="field" id="fontField"><label>Schriftgröße (px)</label><input id="pFont" type="number" min="1" max="1000"></div>
-      <div class="field" id="colorField"><label>Farbe</label><input id="pColor" type="color" value="#ffffff"></div>
+
+      <div class="two">
+        <div class="field">
+          <label>Breite (px)</label>
+          <input id="pW" type="number" min="1" step="1">
+        </div>
+        <div class="field">
+          <label>Höhe (px)</label>
+          <input id="pH" type="number" min="1" step="1">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Drehung (Grad)</label>
+        <input id="pRot" type="number" step="1" min="-3600" max="3600">
+      </div>
+
+      <div class="field">
+        <label>Deckkraft (%)</label>
+        <input id="pOpacity" type="number" min="0" max="100" step="1">
+      </div>
+
+      <div id="textField" class="field">
+        <label>Text oder Emoji</label>
+        <textarea id="pText" rows="3"></textarea>
+      </div>
+
+      <div id="fontField" class="field">
+        <label>Schriftgröße (px)</label>
+        <input id="pFont" type="number" min="1" max="1000">
+      </div>
+
+      <div id="colorField" class="field">
+        <label>Textfarbe</label>
+        <input id="pColor" type="color" value="#ffffff">
+      </div>
+
       <hr>
+
       <div class="two">
-        <div class="field"><label>Startzeit (s)</label><input id="pStart" type="number" min="0" step=".1"></div>
-        <div class="field"><label>Endzeit (s)</label><input id="pEnd" type="number" min=".1" step=".1"></div>
+        <div class="field">
+          <label>Start (Sekunden)</label>
+          <input id="pStart" type="number" min="0" step=".1">
+        </div>
+        <div class="field">
+          <label>Ende (Sekunden)</label>
+          <input id="pEnd" type="number" min=".1" step=".1">
+        </div>
       </div>
+
       <button class="primary" onclick="applyProperties()">Änderungen anwenden</button>
-      <p class="muted">Größe und Position beziehen sich auf die Projektauflösung. X/Y sind die linke obere Ecke des Objekts vor der Drehung.</p>
+
+      <p class="muted">
+        X/Y bezeichnen die linke obere Ecke vor der Drehung. Medienclips laufen
+        entsprechend ihrer Reihenfolge nacheinander.
+      </p>
     </div>
   </aside>
 </main>
 
 <section class="timeline">
   <div class="timelineHead">
-    <h3>Timeline · Mehrspur-Schnitt</h3>
+    <h3>Timeline</h3>
     <div class="actions">
       <button onclick="zoom(-1)">− Zoom</button>
       <button onclick="zoom(1)">＋ Zoom</button>
-      <button onclick="splitSelected()">Clip am Abspielkopf teilen</button>
+      <button onclick="splitSelected()">Clip teilen</button>
     </div>
   </div>
+
   <div class="rulerScroll" id="rulerScroll">
     <div class="ruler" id="ruler"></div>
   </div>
   <div class="trackScroll" id="trackScroll">
     <div id="tracks"></div>
   </div>
+
   <div class="timelineFoot">
-    <span class="muted">Orange: Medien · Blau: Text/Emoji · Ziehe die Clip-Ränder zum Trimmen.</span>
+    <span class="muted">Orange = Video/Bild · Blau = Text/Emoji</span>
     <span class="muted" id="durationLabel">Gesamtdauer: 00:00</span>
   </div>
 </section>
 
-<video id="sourceVideo" playsinline muted hidden></video>
+<video id="sourceVideo" playsinline muted preload="auto" hidden></video>
 
 <script>
-const $=id=>document.getElementById(id);
-const canvas=$('canvas'),ctx=canvas.getContext('2d'),video=$('sourceVideo');
-let assets=[],clips=[],overlays=[],selected=null,playhead=0,playing=false,zoomScale=80;
-let raf=0,lastFrame=0,objectUrls=[],drag=null,clipDrag=null;
-const EPS=.0001;
-const uid=()=>Math.random().toString(36).slice(2,10);
-const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
-const fmt=t=>{t=Math.max(0,t||0);let m=Math.floor(t/60),s=t%60;return String(m).padStart(2,'0')+':'+String(s.toFixed(2)).padStart(5,'0')};
-const duration=()=>clips.reduce((n,c)=>n+c.dur,0);
-const getSelected=()=>selected?([...clips,...overlays].find(x=>x.id===selected)||null):null;
-const isOverlay=o=>overlays.some(x=>x.id===o.id);
-function status(s){$('status').textContent=s}
+const $ = id => document.getElementById(id);
+const canvas = $("canvas");
+const ctx = canvas.getContext("2d");
+const video = $("sourceVideo");
+
+let assets = [];
+let clips = [];
+let overlays = [];
+let selected = null;
+let playhead = 0;
+let playing = false;
+let raf = 0;
+let lastFrame = 0;
+let zoomScale = 80;
+let drag = null;
+let clipDrag = null;
+let exporting = false;
+let exportSession = 0;
+let objectUrls = [];
+
+const clamp = (n,a,b) => Math.max(a,Math.min(b,n));
+const uid = () => Math.random().toString(36).slice(2,10);
+const fmt = t => {
+  t = Math.max(0, t || 0);
+  const m = Math.floor(t / 60);
+  const s = t % 60;
+  return String(m).padStart(2,"0") + ":" + s.toFixed(2).padStart(5,"0");
+};
+const totalDuration = () => clips.reduce((s,c) => s+c.dur,0);
+const getSelected = () => [...clips,...overlays].find(x => x.id===selected) || null;
+const isOverlay = o => overlays.some(x => x.id===o.id);
+const getAsset = c => assets.find(a => a.id===c.assetId);
+
+function status(s){ $("status").textContent=s; }
+
 function projectSize(){
- let w=1920,h=1080;
- if($('resolution').value==='custom'){
-  w=clamp(parseInt($('projectW').value)||1920,16,3840);
-  h=clamp(parseInt($('projectH').value)||1080,16,3840);
- }else [w,h]=$('resolution').value.split('x').map(Number);
- canvas.width=w;canvas.height=h;$('previewInfo').textContent=w+' × '+h;
- drawFrame(playhead);renderTimeline();
+  let w=1920,h=1080;
+  if($("resolution").value==="custom"){
+    w=clamp(parseInt($("projectW").value)||1920,16,3840);
+    h=clamp(parseInt($("projectH").value)||1080,16,3840);
+  } else {
+    [w,h]=$("resolution").value.split("x").map(Number);
+  }
+
+  canvas.width=w;
+  canvas.height=h;
+  $("previewInfo").textContent=w+" × "+h;
+  drawFrame(playhead);
+  renderTimeline();
 }
-$('resolution').addEventListener('change',()=>{
- $('customResolution').hidden=$('resolution').value!=='custom';projectSize();
+
+$("resolution").addEventListener("change",()=>{
+  $("customResolution").hidden=$("resolution").value!=="custom";
+  projectSize();
 });
-$('projectW').addEventListener('change',projectSize);
-$('projectH').addEventListener('change',projectSize);
-function getClipAt(t){
- let cursor=0;
- for(const c of clips){if(t<cursor+c.dur-EPS)return {clip:c,local:t-cursor,start:cursor};cursor+=c.dur}
- return clips.length?{clip:clips[clips.length-1],local:clips[clips.length-1].dur,start:cursor-clips[clips.length-1].dur}:null;
-}
-function addAsset(file){
- const url=URL.createObjectURL(file);objectUrls.push(url);
- const type=file.type.startsWith('video/')?'video':'image';
- const a={id:uid(),name:file.name,url,type,dur:5,w:canvas.width,h:canvas.height};
- if(type==='video'){
-  const v=document.createElement('video');v.preload='metadata';v.src=url;v.muted=true;
-  v.onloadedmetadata=()=>{a.dur=Math.max(.1,v.duration||5);a.w=v.videoWidth||canvas.width;a.h=v.videoHeight||canvas.height;renderLibrary()};
-  a.el=v;
- }else{
-  const im=new Image();im.src=url;im.onload=()=>{a.w=im.naturalWidth;a.h=im.naturalHeight};a.el=im;
- }
- assets.push(a);renderLibrary();
-}
-$('mediaFiles').addEventListener('change',e=>{
- [...e.target.files].forEach(addAsset);e.target.value='';
-});
+$("projectW").addEventListener("change",projectSize);
+$("projectH").addEventListener("change",projectSize);
+
 function renderLibrary(){
- const root=$('library');root.innerHTML='';
- if(!assets.length){root.innerHTML='<div class="empty">Noch keine Medien.</div>';return}
- for(const a of assets){
-  const row=document.createElement('div');row.className='asset';
-  const name=document.createElement('span');name.className='name';name.textContent=(a.type==='video'?'🎬 ':'🖼 ')+a.name;
-  const add=document.createElement('button');add.textContent='＋';add.title='Zur Timeline hinzufügen';add.onclick=()=>addClip(a);
-  row.append(name,add);root.append(row);
- }
+  const root=$("library");
+  root.replaceChildren();
+
+  if(!assets.length){
+    root.innerHTML='<div class="empty">Noch keine Medien importiert.</div>';
+    return;
+  }
+
+  for(const a of assets){
+    const row=document.createElement("div");
+    row.className="asset";
+
+    const name=document.createElement("span");
+    name.className="name";
+    name.textContent=(a.type==="video"?"🎬 ":"🖼 ")+a.name;
+
+    const add=document.createElement("button");
+    add.textContent="＋";
+    add.title="Zur Timeline hinzufügen";
+    add.onclick=()=>addClip(a);
+
+    row.append(name,add);
+    root.append(row);
+  }
 }
+
+function importAsset(file){
+  const url=URL.createObjectURL(file);
+  objectUrls.push(url);
+
+  const type=file.type.startsWith("video/")?"video":"image";
+  const a={
+    id:uid(),name:file.name,url,type,dur:5,
+    w:640,h:360,el:null
+  };
+
+  if(type==="image"){
+    const img=new Image();
+    img.onload=()=>{
+      a.w=img.naturalWidth;
+      a.h=img.naturalHeight;
+      renderLibrary();
+    };
+    img.src=url;
+    a.el=img;
+  } else {
+    const v=document.createElement("video");
+    v.preload="metadata";
+    v.muted=true;
+    v.src=url;
+    v.onloadedmetadata=()=>{
+      a.dur=Math.max(.1,v.duration||5);
+      a.w=v.videoWidth||640;
+      a.h=v.videoHeight||360;
+      renderLibrary();
+    };
+    a.el=v;
+  }
+
+  assets.push(a);
+  renderLibrary();
+}
+
+$("mediaFiles").addEventListener("change",e=>{
+  for(const f of e.target.files) importAsset(f);
+  e.target.value="";
+});
+
 function addClip(a){
- const c={id:uid(),assetId:a.id,name:a.name,type:a.type,dur:Math.max(.1,a.dur||5),opacity:100,rot:0,x:0,y:0,w:canvas.width,h:canvas.height,start:duration()};
- clips.push(c);selected=c.id;renderTimeline();renderProperties();drawFrame(playhead);status('Clip zur Timeline hinzugefügt.');
+  stopPlay();
+
+  // Bilder starten in ihrer echten Pixelgröße.
+  // Videos passen sich standardmäßig an die Projektfläche an.
+  const w=a.type==="image"?a.w:canvas.width;
+  const h=a.type==="image"?a.h:canvas.height;
+
+  const c={
+    id:uid(),assetId:a.id,name:a.name,type:a.type,
+    dur:Math.max(.1,a.dur||5),
+    opacity:100,rot:0,
+    w,h,
+    x:Math.round((canvas.width-w)/2),
+    y:Math.round((canvas.height-h)/2)
+  };
+
+  clips.push(c);
+  selected=c.id;
+  renderTimeline();
+  renderProperties();
+  drawFrame(playhead);
+  status(a.type==="image"?"Bild in Originalgröße eingefügt.":"Video eingefügt.");
 }
+
 function addOverlay(type,value){
- const t={id:uid(),name:type==='text'?'Text':'Emoji',type,text:value||'',x:canvas.width*.1,y:canvas.height*.1,w:type==='text'?canvas.width*.5:160,h:type==='text'?100:160,rot:0,opacity:100,font:Math.max(32,canvas.width*.045),color:'#ffffff',start:playhead,end:Math.max(playhead+3,duration()||3)};
- overlays.push(t);selected=t.id;renderTimeline();renderProperties();drawFrame(playhead);
+  const o={
+    id:uid(),
+    name:type==="text"?"Text":"Emoji",
+    type,text:value||"",
+    x:Math.round(canvas.width*.1),
+    y:Math.round(canvas.height*.1),
+    w:Math.round(canvas.width*.6),
+    h:Math.round(canvas.height*.25),
+    rot:0,opacity:100,
+    font:Math.max(24,Math.round(canvas.width*.045)),
+    color:"#ffffff",
+    start:playhead,
+    end:Math.max(playhead+3,totalDuration()||3)
+  };
+
+  if(type==="emoji"){
+    o.w=160;o.h=160;o.font=100;
+  }
+
+  overlays.push(o);
+  selected=o.id;
+  renderTimeline();
+  renderProperties();
+  drawFrame(playhead);
 }
-function addText(){addOverlay('text',$('newText').value||'Dein Text')}
-function addEmoji(){addOverlay('emoji',$('newEmoji').value||'🔥')}
-function selectItem(id){selected=id;renderTimeline();renderProperties();drawFrame(playhead)}
+
+function addText(){addOverlay("text",$("newText").value||"Dein Text");}
+function addEmoji(){addOverlay("emoji",$("newEmoji").value||"🔥");}
+
+function selectItem(id){
+  selected=id;
+  renderTimeline();
+  renderProperties();
+  drawFrame(playhead);
+}
+
 function renderProperties(){
- const o=getSelected();$('noSelection').hidden=!!o;$('properties').hidden=!o;if(!o)return;
- $('pName').value=o.name||'';$('pX').value=Math.round(o.x||0);$('pY').value=Math.round(o.y||0);
- $('pW').value=Math.round(o.w||100);$('pH').value=Math.round(o.h||100);
- $('pRot').value=o.rot||0;$('pOpacity').value=o.opacity??100;
- $('pStart').value=Number(o.start||0).toFixed(2);
- $('pEnd').value=Number(isOverlay(o)?o.end:(o.start||0)+o.dur).toFixed(2);
- $('textField').hidden=!isOverlay(o);$('fontField').hidden=!(o.type==='text'||o.type==='emoji');
- $('colorField').hidden=!(o.type==='text'||o.type==='emoji');
- if(isOverlay(o)){$('pText').value=o.text||'';$('pFont').value=o.font||48;$('pColor').value=o.color||'#ffffff'}
+  const o=getSelected();
+  $("noSelection").hidden=!!o;
+  $("properties").hidden=!o;
+  if(!o)return;
+
+  $("pName").value=o.name||"";
+  $("pX").value=Math.round(o.x||0);
+  $("pY").value=Math.round(o.y||0);
+  $("pW").value=Math.round(o.w||100);
+  $("pH").value=Math.round(o.h||100);
+  $("pRot").value=o.rot||0;
+  $("pOpacity").value=o.opacity??100;
+
+  $("textField").hidden=!isOverlay(o);
+  $("fontField").hidden=!(o.type==="text"||o.type==="emoji");
+  $("colorField").hidden=!(o.type==="text"||o.type==="emoji");
+
+  if(isOverlay(o)){
+    $("pText").value=o.text||"";
+    $("pFont").value=o.font||48;
+    $("pColor").value=o.color||"#ffffff";
+    $("pStart").value=Number(o.start||0).toFixed(2);
+    $("pEnd").value=Number(o.end||1).toFixed(2);
+  } else {
+    $("pStart").value=0;
+    $("pEnd").value=Number(o.dur||1).toFixed(2);
+  }
 }
+
 function applyProperties(){
- const o=getSelected();if(!o)return;
- o.name=$('pName').value||o.name;
- o.x=Number($('pX').value)||0;o.y=Number($('pY').value)||0;
- o.w=Math.max(1,Number($('pW').value)||1);o.h=Math.max(1,Number($('pH').value)||1);
- o.rot=Number($('pRot').value)||0;o.opacity=clamp(Number($('pOpacity').value)||0,0,100);
- if(isOverlay(o)){o.text=$('pText').value;o.font=clamp(Number($('pFont').value)||48,1,1000);o.color=$('pColor').value;
-  o.start=Math.max(0,Number($('pStart').value)||0);o.end=Math.max(o.start+.1,Number($('pEnd').value)||o.start+1);
- }else{
-  const oldStart=o.start||0;const newStart=Math.max(0,Number($('pStart').value)||0);
-  o.dur=Math.max(.1,(Number($('pEnd').value)||newStart+.1)-newStart);
-  o.start=newStart;
-  // Medienclips werden in der Sequenz über ihre Reihenfolge positioniert.
-  if(Math.abs(oldStart-newStart)>.05)status('Medien-Startzeiten folgen der Clip-Reihenfolge. Nutze Ziehen oder die Pfeiltasten zum Sortieren.');
- }
- renderTimeline();drawFrame(playhead);status('Eigenschaften angewendet.');
+  const o=getSelected();
+  if(!o)return;
+
+  o.name=$("pName").value||o.name;
+  o.x=Number($("pX").value)||0;
+  o.y=Number($("pY").value)||0;
+  o.w=Math.max(1,Number($("pW").value)||1);
+  o.h=Math.max(1,Number($("pH").value)||1);
+  o.rot=Number($("pRot").value)||0;
+  o.opacity=clamp(Number($("pOpacity").value)||0,0,100);
+
+  if(isOverlay(o)){
+    o.text=$("pText").value;
+    o.font=clamp(Number($("pFont").value)||48,1,1000);
+    o.color=$("pColor").value;
+    o.start=Math.max(0,Number($("pStart").value)||0);
+    o.end=Math.max(o.start+.1,Number($("pEnd").value)||o.start+1);
+  } else {
+    o.dur=Math.max(.1,Number($("pEnd").value)||o.dur);
+    status("Medienclips werden nacheinander abgespielt.");
+  }
+
+  renderTimeline();
+  renderProperties();
+  drawFrame(playhead);
+  status("Eigenschaften übernommen.");
 }
+
 function deleteSelected(){
- if(!selected)return;clips=clips.filter(c=>c.id!==selected);overlays=overlays.filter(c=>c.id!==selected);selected=null;renderTimeline();renderProperties();drawFrame(playhead);
+  if(!selected)return;
+  clips=clips.filter(c=>c.id!==selected);
+  overlays=overlays.filter(c=>c.id!==selected);
+  selected=null;
+  renderTimeline();
+  renderProperties();
+  drawFrame(playhead);
 }
+
 function moveSelected(dir){
- const i=clips.findIndex(c=>c.id===selected);
- if(i>=0){const j=clamp(i+dir,0,clips.length-1);[clips[i],clips[j]]=[clips[j],clips[i]];renderTimeline();drawFrame(playhead)}
- else{
-  const k=overlays.findIndex(o=>o.id===selected);
-  if(k>=0){overlays[k].start=Math.max(0,overlays[k].start+dir*.25);overlays[k].end=Math.max(overlays[k].start+.1,overlays[k].end+dir*.25);renderTimeline();drawFrame(playhead)}
- }
+  const i=clips.findIndex(c=>c.id===selected);
+
+  if(i>=0){
+    const j=clamp(i+dir,0,clips.length-1);
+    [clips[i],clips[j]]=[clips[j],clips[i]];
+  } else {
+    const o=getSelected();
+    if(o&&isOverlay(o)){
+      o.start=Math.max(0,o.start+dir*.25);
+      o.end=Math.max(o.start+.1,o.end+dir*.25);
+    }
+  }
+
+  renderTimeline();
+  drawFrame(playhead);
 }
-function zoom(dir){zoomScale=clamp(zoomScale*(dir>0?1.25:.8),20,320);renderTimeline()}
-function renderTimeline(){
- const total=Math.max(10,duration()+2,...overlays.map(o=>o.end||0));
- const px=total*zoomScale,tracks=$('tracks'),ruler=$('ruler');
- ruler.style.width=px+112+'px';ruler.innerHTML='';
- for(let t=0;t<=total;t+=Math.max(1,Math.ceil(40/zoomScale))){
-  const tick=document.createElement('div');tick.className='tick';tick.style.left=(112+t*zoomScale)+'px';tick.textContent=fmt(t);ruler.append(tick);
- }
- tracks.innerHTML='';
- const all=[
-  {label:'VIDEO / BILD',list:clips,overlay:false},
-  {label:'TEXT / EMOJI',list:overlays,overlay:true}
- ];
- for(const tr of all){
-  const row=document.createElement('div');row.className='track';row.style.width=px+112+'px';
-  const label=document.createElement('div');label.className='trackLabel';label.textContent=tr.label;row.append(label);
-  const lane=document.createElement('div');lane.className='lane';lane.style.width=px+'px';lane.style.flex='none';lane.style.backgroundSize=zoomScale+'px 100%';
+
+function zoom(dir){
+  zoomScale=clamp(zoomScale*(dir>0?1.25:.8),20,320);
+  renderTimeline();
+}
+
+function clipStart(index){
+  let t=0;
+  for(let i=0;i<index;i++)t+=clips[i].dur;
+  return t;
+}
+
+function getClipAt(t){
   let cursor=0;
-  for(const item of tr.list){
-   const start=tr.overlay?item.start:cursor;
-   const dur=tr.overlay?Math.max(.1,item.end-item.start):item.dur;
-   const el=document.createElement('div');el.className='clip'+(tr.overlay?' overlay':'')+(item.id===selected?' selected':'');
-   el.style.left=(start*zoomScale)+'px';el.style.width=Math.max(12,dur*zoomScale)+'px';el.title=item.name;
-   const l=document.createElement('div');l.className='edge';l.title='Clipanfang ziehen';
-   const name=document.createElement('div');name.className='clipName';name.textContent=item.name||item.text||item.type;
-   const r=document.createElement('div');r.className='edge';r.title='Clipende ziehen';
-   el.append(l,name,r);el.onclick=()=>selectItem(item.id);
-   const begin=e=>{e.preventDefault();selectItem(item.id);clipDrag={item,overlay:tr.overlay,edge:e.target===l?'left':e.target===r?'right':'move',x:e.clientX,origStart:start,origDur:dur,origEnd:item.end,origIndex:clips.indexOf(item)}};
-   el.addEventListener('pointerdown',begin);
-   lane.append(el);
-   if(!tr.overlay)cursor+=item.dur;
+  for(const c of clips){
+    if(t<cursor+c.dur){
+      return {clip:c,local:t-cursor,start:cursor};
+    }
+    cursor+=c.dur;
   }
-  row.append(lane);
-  const ph=document.createElement('div');ph.className='playhead';ph.style.left=(112+playhead*zoomScale)+'px';row.append(ph);
-  tracks.append(row);
- }
- $('durationLabel').textContent='Gesamtdauer: '+fmt(duration());
- $('timeDisplay').textContent=fmt(playhead)+' / '+fmt(duration());
+  return null;
 }
-window.addEventListener('pointermove',e=>{
- if(clipDrag){
-  const d=(e.clientX-clipDrag.x)/zoomScale,o=clipDrag.item;
-  if(clipDrag.overlay){
-   if(clipDrag.edge==='left'){o.start=Math.max(0,clipDrag.origStart+d);o.end=Math.max(o.start+.1,clipDrag.origEnd)}
-   else if(clipDrag.edge==='right'){o.end=Math.max(o.start+.1,clipDrag.origEnd+d)}
-   else{const dur=clipDrag.origEnd-clipDrag.origStart;o.start=Math.max(0,clipDrag.origStart+d);o.end=o.start+dur}
-  }else{
-   if(clipDrag.edge==='left')o.dur=Math.max(.1,clipDrag.origDur-d);
-   else if(clipDrag.edge==='right')o.dur=Math.max(.1,clipDrag.origDur+d);
+
+function renderTimeline(){
+  const total=Math.max(10,totalDuration()+2,...overlays.map(o=>o.end||0));
+  const px=total*zoomScale;
+  const ruler=$("ruler");
+  const tracks=$("tracks");
+
+  ruler.style.width=(px+110)+"px";
+  ruler.replaceChildren();
+
+  const step=Math.max(1,Math.ceil(40/zoomScale));
+  for(let t=0;t<=total;t+=step){
+    const tick=document.createElement("div");
+    tick.className="tick";
+    tick.style.left=(110+t*zoomScale)+"px";
+    tick.textContent=fmt(t);
+    ruler.append(tick);
   }
-  renderTimeline();drawFrame(playhead);
- }
- if(drag){
-  const rect=canvas.getBoundingClientRect(),sx=canvas.width/rect.width,sy=canvas.height/rect.height;
-  drag.o.x=drag.ox+(e.clientX-drag.x)*sx;drag.o.y=drag.oy+(e.clientY-drag.y)*sy;
-  drawFrame(playhead);renderProperties();
- }
+
+  tracks.replaceChildren();
+
+  const trackDefs=[
+    {label:"VIDEO / BILD",list:clips,overlay:false},
+    {label:"TEXT / EMOJI",list:overlays,overlay:true}
+  ];
+
+  for(const tr of trackDefs){
+    const row=document.createElement("div");
+    row.className="track";
+    row.style.width=(px+110)+"px";
+
+    const label=document.createElement("div");
+    label.className="trackLabel";
+    label.textContent=tr.label;
+    row.append(label);
+
+    const lane=document.createElement("div");
+    lane.className="lane";
+    lane.style.width=px+"px";
+    lane.style.backgroundSize=zoomScale+"px 100%";
+
+    tr.list.forEach((item,index)=>{
+      const start=tr.overlay?item.start:clipStart(index);
+      const dur=tr.overlay?Math.max(.1,item.end-item.start):item.dur;
+
+      const el=document.createElement("div");
+      el.className="clip"+(tr.overlay?" overlay":"")+(item.id===selected?" selected":"");
+      el.style.left=(start*zoomScale)+"px";
+      el.style.width=Math.max(12,dur*zoomScale)+"px";
+      el.title=item.name;
+
+      const left=document.createElement("div");
+      left.className="edge";
+      left.title="Clipanfang trimmen";
+
+      const name=document.createElement("div");
+      name.className="clipName";
+      name.textContent=item.name||item.text||item.type;
+
+      const right=document.createElement("div");
+      right.className="edge";
+      right.title="Clipende trimmen";
+
+      el.append(left,name,right);
+      el.addEventListener("pointerdown",e=>{
+        e.preventDefault();
+        selectItem(item.id);
+        clipDrag={
+          item,overlay:tr.overlay,
+          edge:e.target===left?"left":e.target===right?"right":"move",
+          x:e.clientX,origStart:start,origDur:dur,
+          origEnd:item.end,origX:item.x,origY:item.y
+        };
+      });
+
+      lane.append(el);
+    });
+
+    row.append(lane);
+
+    const ph=document.createElement("div");
+    ph.className="playhead";
+    ph.style.left=(110+playhead*zoomScale)+"px";
+    row.append(ph);
+    tracks.append(row);
+  }
+
+  $("durationLabel").textContent="Gesamtdauer: "+fmt(totalDuration());
+  $("timeDisplay").textContent=fmt(playhead)+" / "+fmt(totalDuration());
+}
+
+window.addEventListener("pointermove",e=>{
+  if(clipDrag){
+    const d=(e.clientX-clipDrag.x)/zoomScale;
+    const o=clipDrag.item;
+
+    if(clipDrag.overlay){
+      if(clipDrag.edge==="left"){
+        o.start=Math.max(0,clipDrag.origStart+d);
+        o.end=Math.max(o.start+.1,clipDrag.origEnd);
+      } else if(clipDrag.edge==="right"){
+        o.end=Math.max(o.start+.1,clipDrag.origEnd+d);
+      } else {
+        const dur=clipDrag.origEnd-clipDrag.origStart;
+        o.start=Math.max(0,clipDrag.origStart+d);
+        o.end=o.start+dur;
+      }
+    } else {
+      if(clipDrag.edge==="left"){
+        o.dur=Math.max(.1,clipDrag.origDur-d);
+      } else if(clipDrag.edge==="right"){
+        o.dur=Math.max(.1,clipDrag.origDur+d);
+      } else {
+        const i=clips.indexOf(o);
+        const j=clamp(i+Math.round(d/Math.max(1,clipDrag.origDur*zoomScale)),0,clips.length-1);
+        if(i!==j)[clips[i],clips[j]]=[clips[j],clips[i]];
+      }
+    }
+
+    renderTimeline();
+    drawFrame(playhead);
+  }
+
+  if(drag){
+    const rect=canvas.getBoundingClientRect();
+    drag.o.x=drag.ox+(e.clientX-drag.x)*canvas.width/rect.width;
+    drag.o.y=drag.oy+(e.clientY-drag.y)*canvas.height/rect.height;
+    drawFrame(playhead);
+    renderProperties();
+  }
 });
-window.addEventListener('pointerup',()=>{clipDrag=null;drag=null});
-$('rulerScroll').addEventListener('click',e=>{
- const rect=$('ruler').getBoundingClientRect();
- playhead=Math.max(0,(e.clientX-rect.left-112)/zoomScale);playhead=Math.min(playhead,duration());
- if(playing)stopPlay();drawFrame(playhead);renderTimeline();
+
+window.addEventListener("pointerup",()=>{
+  clipDrag=null;
+  drag=null;
 });
+
+$("rulerScroll").addEventListener("click",e=>{
+  const rect=$("ruler").getBoundingClientRect();
+  playhead=Math.max(0,(e.clientX-rect.left-110)/zoomScale);
+  playhead=Math.min(playhead,totalDuration());
+  stopPlay();
+  drawFrame(playhead);
+});
+
 function splitSelected(){
- const c=getSelected();if(!c||isOverlay(c)){status('Wähle einen Medienclip zum Teilen.');return}
- const i=clips.indexOf(c),at=playhead-clips.slice(0,i).reduce((s,x)=>s+x.dur,0);
- if(at<=.1||at>=c.dur-.1){status('Abspielkopf muss innerhalb des Clips liegen.');return}
- const second={...c,id:uid(),dur:c.dur-at,name:c.name+' (Teil 2)'};
- c.dur=at;clips.splice(i+1,0,second);selected=second.id;renderTimeline();renderProperties();
+  const c=getSelected();
+  if(!c||isOverlay(c)){
+    status("Wähle einen Medienclip aus.");
+    return;
+  }
+
+  const i=clips.indexOf(c);
+  const at=playhead-clipStart(i);
+
+  if(at<=.1||at>=c.dur-.1){
+    status("Der Abspielkopf muss innerhalb des Clips liegen.");
+    return;
+  }
+
+  const second={...c,id:uid(),dur:c.dur-at,name:c.name+" (Teil 2)"};
+  c.dur=at;
+  clips.splice(i+1,0,second);
+  selected=second.id;
+  renderTimeline();
+  renderProperties();
 }
-function getAsset(c){return assets.find(a=>a.id===c.assetId)}
-function drawMedia(c,local){
- const a=getAsset(c);if(!a)return;
- ctx.save();ctx.globalAlpha=clamp(c.opacity??100,0,100)/100;
- ctx.translate(c.x+c.w/2,c.y+c.h/2);ctx.rotate((c.rot||0)*Math.PI/180);
- try{
-  const el=a.el;
-  if(a.type==='video'){
-   if(el&&el.readyState>=2)ctx.drawImage(el,-c.w/2,-c.h/2,c.w,c.h);
-  }else if(el&&el.complete)ctx.drawImage(el,-c.w/2,-c.h/2,c.w,c.h);
- }catch(e){}
- ctx.restore();
+
+function drawMedia(c){
+  const a=getAsset(c);
+  if(!a||!a.el)return;
+
+  ctx.save();
+  ctx.globalAlpha=clamp(c.opacity??100,0,100)/100;
+  ctx.translate(c.x+c.w/2,c.y+c.h/2);
+  ctx.rotate((c.rot||0)*Math.PI/180);
+
+  try{
+    if(a.type==="video"){
+      if(a.el.readyState>=2)ctx.drawImage(a.el,-c.w/2,-c.h/2,c.w,c.h);
+    } else if(a.el.complete){
+      ctx.drawImage(a.el,-c.w/2,-c.h/2,c.w,c.h);
+    }
+  } catch(err){}
+
+  ctx.restore();
 }
+
 function drawOverlay(o){
- ctx.save();ctx.globalAlpha=clamp(o.opacity??100,0,100)/100;
- ctx.translate(o.x+o.w/2,o.y+o.h/2);ctx.rotate((o.rot||0)*Math.PI/180);
- if(o.type==='text'){
-  ctx.fillStyle=o.color||'#fff';ctx.font='bold '+(o.font||48)+'px Arial,sans-serif';
-  ctx.textBaseline='middle';ctx.textAlign='center';
-  const lines=String(o.text||'').split('\n'),lh=(o.font||48)*1.2;
-  lines.forEach((line,i)=>ctx.fillText(line,0,(i-(lines.length-1)/2)*lh,o.w));
- }else{
-  ctx.font=(o.font||80)+'px "Apple Color Emoji","Segoe UI Emoji",sans-serif';
-  ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(o.text||'🔥',0,0);
- }
- ctx.restore();
+  ctx.save();
+  ctx.globalAlpha=clamp(o.opacity??100,0,100)/100;
+  ctx.translate(o.x+o.w/2,o.y+o.h/2);
+  ctx.rotate((o.rot||0)*Math.PI/180);
+
+  if(o.type==="text"){
+    const size=Math.max(1,o.font||48);
+    const pad=8;
+    const maxWidth=Math.max(1,o.w-pad*2);
+    const lineHeight=size*1.2;
+
+    ctx.font="bold "+size+"px Arial, sans-serif";
+    ctx.fillStyle=o.color||"#ffffff";
+    ctx.textAlign="left";
+    ctx.textBaseline="top";
+
+    const lines=[];
+    const paragraphs=String(o.text||"").split("\n");
+
+    for(const paragraph of paragraphs){
+      const words=paragraph.split(/\s+/);
+      let line="";
+
+      for(const word of words){
+        // Lange Wörter werden bei Bedarf ebenfalls aufgeteilt.
+        let remaining=word;
+        while(remaining && ctx.measureText((line?line+" ":"")+remaining).width>maxWidth){
+          if(line){
+            lines.push(line);
+            line="";
+          } else {
+            let piece="";
+            while(remaining && ctx.measureText(piece+remaining[0]).width<=maxWidth){
+              piece+=remaining[0];
+              remaining=remaining.slice(1);
+            }
+            if(!piece){
+              piece=remaining[0];
+              remaining=remaining.slice(1);
+            }
+            lines.push(piece);
+          }
+        }
+
+        if(remaining){
+          const test=line?line+" "+remaining:remaining;
+          if(ctx.measureText(test).width>maxWidth){
+            if(line)lines.push(line);
+            line=remaining;
+          } else {
+            line=test;
+          }
+        }
+      }
+      lines.push(line);
+    }
+
+    // Der Text wird auf die definierte Box begrenzt.
+    ctx.beginPath();
+    ctx.rect(-o.w/2,-o.h/2,o.w,o.h);
+    ctx.clip();
+
+    let y=-o.h/2+pad;
+    for(const line of lines){
+      if(y+lineHeight>o.h/2)break;
+      ctx.fillText(line,-o.w/2+pad,y,maxWidth);
+      y+=lineHeight;
+    }
+  } else {
+    ctx.font=(o.font||80)+'px "Apple Color Emoji","Segoe UI Emoji",sans-serif';
+    ctx.textAlign="center";
+    ctx.textBaseline="middle";
+    ctx.fillText(o.text||"🔥",0,0);
+  }
+
+  ctx.restore();
 }
+
 function drawFrame(t){
- ctx.clearRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#000';ctx.fillRect(0,0,canvas.width,canvas.height);
- const at=getClipAt(t);
- if(at){
-  const c=at.clip,a=getAsset(c);
-  if(a?.type==='video'){
-   if(video.dataset.asset!==a.id){video.pause();video.src=a.url;video.dataset.asset=a.id;video.load()}
-   const target=clamp(at.local,0,Math.max(0,(a.dur||c.dur)-.02));
-   if(Math.abs((video.currentTime||0)-target)>.15&&!playing){try{video.currentTime=target}catch(e){}}
-   drawMedia({...c,w:c.w||canvas.width,h:c.h||canvas.height},at.local);
-  }else drawMedia(c,at.local);
- }
- for(const o of overlays){if(t>=o.start&&t<o.end)drawOverlay(o)}
- if(!clips.length){ctx.fillStyle='#888';ctx.textAlign='center';ctx.font='30px Arial';ctx.fillText('Risky Studio Pro',canvas.width/2,canvas.height/2)}
- renderTimeline();
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle="#000";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  const at=getClipAt(t);
+  if(at){
+    const c=at.clip;
+    const a=getAsset(c);
+    if(a){
+      if(a.type==="video"){
+        if(video.dataset.asset!==a.id){
+          video.pause();
+          video.src=a.url;
+          video.dataset.asset=a.id;
+          video.load();
+        }
+
+        const target=clamp(at.local,0,Math.max(0,(a.dur||c.dur)-.03));
+        if(!playing && Math.abs((video.currentTime||0)-target)>.12){
+          try{video.currentTime=target}catch(e){}
+        }
+        drawMedia({...c,el:video});
+      } else {
+        drawMedia(c);
+      }
+    }
+  }
+
+  for(const o of overlays){
+    if(t>=o.start&&t<o.end)drawOverlay(o);
+  }
+
+  if(!clips.length){
+    ctx.fillStyle="#888";
+    ctx.textAlign="center";
+    ctx.font="30px Arial";
+    ctx.fillText("Risky Studio Pro",canvas.width/2,canvas.height/2);
+  }
+
+  renderTimeline();
 }
-function togglePlay(){if(playing)stopPlay();else startPlay()}
+
+function togglePlay(){
+  if(playing)stopPlay();
+  else startPlay();
+}
+
 function startPlay(){
- if(!clips.length){status('Importiere zuerst Medien.');return}
- if(playhead>=duration())playhead=0;
- playing=true;lastFrame=performance.now();$('playBtn').textContent='⏸ Pause';
- const loop=now=>{
-  if(!playing)return;
-  const dt=Math.min(.1,(now-lastFrame)/1000);lastFrame=now;playhead+=dt;
-  if(playhead>=duration()){playhead=duration();drawFrame(playhead);stopPlay();return}
-  const at=getClipAt(playhead);
-  if(at&&getAsset(at.clip)?.type==='video'){
-   const a=getAsset(at.clip);
-   if(video.dataset.asset!==a.id){video.pause();video.src=a.url;video.dataset.asset=a.id;video.load()}
-   const target=at.local;
-   if(Math.abs((video.currentTime||0)-target)>.35){try{video.currentTime=target}catch(e){}}
-   if(video.paused)video.play().catch(()=>{});
-  }else if(!video.paused)video.pause();
-  drawFrame(playhead);raf=requestAnimationFrame(loop);
- };
- raf=requestAnimationFrame(loop);
+  if(!clips.length){
+    status("Importiere zuerst Medien.");
+    return;
+  }
+
+  if(playhead>=totalDuration())playhead=0;
+
+  playing=true;
+  lastFrame=performance.now();
+  $("playBtn").textContent="⏸ Pause";
+
+  function loop(now){
+    if(!playing)return;
+
+    const dt=Math.min(.1,(now-lastFrame)/1000);
+    lastFrame=now;
+    playhead+=dt;
+
+    if(playhead>=totalDuration()){
+      playhead=totalDuration();
+      drawFrame(playhead);
+      stopPlay();
+      return;
+    }
+
+    const at=getClipAt(playhead);
+    if(at&&getAsset(at.clip)?.type==="video"){
+      const a=getAsset(at.clip);
+
+      if(video.dataset.asset!==a.id){
+        video.pause();
+        video.src=a.url;
+        video.dataset.asset=a.id;
+        video.load();
+      }
+
+      if(Math.abs((video.currentTime||0)-at.local)>.4){
+        try{video.currentTime=at.local}catch(e){}
+      }
+      if(video.paused)video.play().catch(()=>{});
+    } else {
+      video.pause();
+    }
+
+    drawFrame(playhead);
+    raf=requestAnimationFrame(loop);
+  }
+
+  raf=requestAnimationFrame(loop);
 }
-function stopPlay(){playing=false;cancelAnimationFrame(raf);video.pause();$('playBtn').textContent='▶ Abspielen';drawFrame(playhead)}
-function goStart(){stopPlay();playhead=0;drawFrame(playhead)}
-canvas.addEventListener('pointerdown',e=>{
- const rect=canvas.getBoundingClientRect(),x=(e.clientX-rect.left)*canvas.width/rect.width,y=(e.clientY-rect.top)*canvas.height/rect.height;
- const visible=overlays.filter(o=>playhead>=o.start&&playhead<o.end).reverse();
- const o=visible.find(o=>x>=o.x-20&&x<=o.x+o.w+20&&y>=o.y-20&&y<=o.y+o.h+20);
- if(o){selectItem(o.id);drag={o,x:e.clientX,y:e.clientY,ox:o.x,oy:o.y};canvas.setPointerCapture(e.pointerId)}
+
+function stopPlay(){
+  playing=false;
+  cancelAnimationFrame(raf);
+  video.pause();
+  $("playBtn").textContent="▶ Abspielen";
+  drawFrame(playhead);
+}
+
+function goStart(){
+  stopPlay();
+  playhead=0;
+  drawFrame(0);
+}
+
+canvas.addEventListener("pointerdown",e=>{
+  const rect=canvas.getBoundingClientRect();
+  const x=(e.clientX-rect.left)*canvas.width/rect.width;
+  const y=(e.clientY-rect.top)*canvas.height/rect.height;
+
+  const visible=overlays.filter(o=>playhead>=o.start&&playhead<o.end).reverse();
+  const o=visible.find(o=>{
+    return x>=o.x-10&&x<=o.x+o.w+10&&y>=o.y-10&&y<=o.y+o.h+10;
+  });
+
+  if(o){
+    selectItem(o.id);
+    drag={o,x:e.clientX,y:e.clientY,ox:o.x,oy:o.y};
+    canvas.setPointerCapture(e.pointerId);
+  }
 });
-function exportVideo(){
- if(!clips.length){status('Füge zuerst Medien zur Timeline hinzu.');return}
- if(!canvas.captureStream||!window.MediaRecorder){status('Dein Browser unterstützt den Videoexport nicht.');return}
- stopPlay();playhead=0;
- const stream=canvas.captureStream(30);
- let mime='video/webm;codecs=vp9';
- if(!MediaRecorder.isTypeSupported(mime))mime='video/webm';
- let rec;
- try{rec=new MediaRecorder(stream,{mimeType:mime})}catch(e){status('Export konnte nicht gestartet werden.');return}
- const chunks=[];rec.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};
- rec.onstop=()=>{
-  const blob=new Blob(chunks,{type:'video/webm'}),url=URL.createObjectURL(blob),a=document.createElement('a');
-  a.href=url;a.download='RiskyStudio-Export.webm';a.click();setTimeout(()=>URL.revokeObjectURL(url),5000);
-  stream.getTracks().forEach(t=>t.stop());status('Export fertig. Prüfe das Video vor der Veröffentlichung.');
- };
- rec.start(250);status('Export läuft … lass den Tab geöffnet.');
- let start=performance.now(),last=start;
- function frame(now){
-  const t=(now-start)/1000;playhead=Math.min(t,duration());
-  const at=getClipAt(playhead);
-  if(at&&getAsset(at.clip)?.type==='video'){
-   const a=getAsset(at.clip);
-   if(video.dataset.asset!==a.id){video.pause();video.src=a.url;video.dataset.asset=a.id;video.load()}
-   const target=at.local;
-   if(Math.abs((video.currentTime||0)-target)>.3){try{video.currentTime=target}catch(e){}}
-   if(video.paused)video.play().catch(()=>{});
-  }else video.pause();
-  drawFrame(playhead);last=now;
-  if(t<duration())requestAnimationFrame(frame);
-  else{video.pause();setTimeout(()=>rec.stop(),400)}
- }
- requestAnimationFrame(frame);
-}
+
 function saveProject(){
- const data={version:1,resolution:$('resolution').value,w:canvas.width,h:canvas.height,
-  assets:assets.map(a=>({id:a.id,name:a.name,type:a.type,dur:a.dur})),
-  clips,overlays};
- const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
- const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='RiskyStudio-Projekt.json';a.click();URL.revokeObjectURL(url);
- status('Projektdatei gespeichert. Medien müssen beim Laden erneut importiert werden.');
+  const data={
+    version:2,
+    resolution:$("resolution").value,
+    w:canvas.width,h:canvas.height,
+    assets:assets.map(a=>({id:a.id,name:a.name,type:a.type,dur:a.dur,w:a.w,h:a.h})),
+    clips,overlays
+  };
+
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;
+  a.download="RiskyStudio-Projekt.json";
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),2000);
+  status("Projektstruktur gespeichert. Medien müssen separat erneut importiert werden.");
 }
-$('projectFile').addEventListener('change',async e=>{
- const f=e.target.files[0];if(!f)return;
- try{
-  const data=JSON.parse(await f.text());
-  clips=data.clips||[];overlays=data.overlays||[];selected=null;
-  if(data.resolution){$('resolution').value=data.resolution}
-  projectSize();renderTimeline();renderProperties();
-  status('Projektstruktur geladen. Importiere die ursprünglichen Medien erneut, damit die Clips wieder angezeigt werden.');
- }catch(err){status('Projektdatei konnte nicht gelesen werden.')}
- e.target.value='';
+
+$("projectFile").addEventListener("change",async e=>{
+  const f=e.target.files[0];
+  if(!f)return;
+
+  try{
+    const data=JSON.parse(await f.text());
+    clips=data.clips||[];
+    overlays=data.overlays||[];
+    selected=null;
+
+    if(data.resolution)$("resolution").value=data.resolution;
+    $("customResolution").hidden=$("resolution").value!=="custom";
+    if(data.w)$("projectW").value=data.w;
+    if(data.h)$("projectH").value=data.h;
+
+    projectSize();
+    renderTimeline();
+    renderProperties();
+    status("Projektstruktur geladen. Importiere die Originalmedien erneut.");
+  }catch(err){
+    status("Die Projektdatei konnte nicht gelesen werden.");
+  }
+
+  e.target.value="";
 });
-projectSize();renderLibrary();renderTimeline();drawFrame(0);
+
+function exportVideo(){
+  if(!clips.length){
+    status("Füge zuerst Medien zur Timeline hinzu.");
+    return;
+  }
+  if(!canvas.captureStream||!window.MediaRecorder){
+    status("Dieser Browser unterstützt den Videoexport nicht.");
+    return;
+  }
+  if(exporting)return;
+
+  stopPlay();
+  playhead=0;
+  exporting=true;
+  const session=++exportSession;
+  const stream=canvas.captureStream(30);
+  let mime="video/webm;codecs=vp9";
+  if(!MediaRecorder.isTypeSupported(mime))mime="video/webm";
+
+  let rec;
+  try{
+    rec=new MediaRecorder(stream,{mimeType:mime});
+  }catch(e){
+    exporting=false;
+    status("Der Videoexport konnte nicht gestartet werden.");
+    return;
+  }
+
+  const chunks=[];
+  rec.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};
+  rec.onerror=()=>{
+    exporting=false;
+    stream.getTracks().forEach(t=>t.stop());
+    status("Beim Export ist ein Fehler aufgetreten.");
+  };
+  rec.onstop=()=>{
+    exporting=false;
+    if(session!==exportSession)return;
+
+    const blob=new Blob(chunks,{type:"video/webm"});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");
+    a.href=url;
+    a.download="RiskyStudio-Export.webm";
+    a.click();
+    setTimeout(()=>URL.revokeObjectURL(url),5000);
+    stream.getTracks().forEach(t=>t.stop());
+    status("Export abgeschlossen. Prüfe die Datei vor der Veröffentlichung.");
+  };
+
+  rec.start(250);
+  status("Export läuft. Lass den Tab geöffnet.");
+
+  const start=performance.now();
+
+  function frame(now){
+    if(session!==exportSession||!exporting)return;
+
+    playhead=Math.min((now-start)/1000,totalDuration());
+    const at=getClipAt(playhead);
+
+    if(at&&getAsset(at.clip)?.type==="video"){
+      const a=getAsset(at.clip);
+      if(video.dataset.asset!==a.id){
+        video.pause();
+        video.src=a.url;
+        video.dataset.asset=a.id;
+        video.load();
+      }
+
+      if(Math.abs((video.currentTime||0)-at.local)>.35){
+        try{video.currentTime=at.local}catch(e){}
+      }
+      if(video.paused)video.play().catch(()=>{});
+    }else{
+      video.pause();
+    }
+
+    drawFrame(playhead);
+
+    if(playhead<totalDuration()){
+      requestAnimationFrame(frame);
+    }else{
+      video.pause();
+      setTimeout(()=>{if(rec.state!=="inactive")rec.stop()},500);
+    }
+  }
+
+  requestAnimationFrame(frame);
+}
+
+projectSize();
+renderLibrary();
+renderTimeline();
+drawFrame(0);
 </script>
 </body>
 </html>
